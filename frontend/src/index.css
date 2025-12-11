@@ -1,0 +1,60 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom fonts */
+
+/* Global styles */
+body {
+  font-family: 'Inter', sans-serif;
+  @apply bg-gray-100 text-gray-900 min-h-screen;
+}
+
+/* Custom button styles */
+.btn-primary {
+  @apply bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition duration-200;
+}
+
+.btn-secondary {
+  @apply bg-gray-600 text-white px-4 py-2 rounded hover:bg-gray-700 transition duration-200;
+}
+
+.btn-success {
+  @apply bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition duration-200;
+}
+
+.input-field {
+  @apply w-full border border-gray-300 p-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500;
+}
+
+.card {
+  @apply bg-white rounded shadow-md;
+}
+
+.page-container {
+  @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8;
+}
+
+.page-title {
+  @apply text-2xl font-bold text-gray-900 mb-2;
+}
+
+.page-subtitle {
+  @apply text-gray-600 mb-6;
+}
+
+.section-title {
+  @apply text-xl font-semibold text-gray-800 mb-4;
+}
+
+/* Animation classes */
+.fade-in {
+  animation: fadeIn 0.3s ease-in;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
