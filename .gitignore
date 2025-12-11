@@ -1,0 +1,41 @@
+# Dependencies
+node_modules/
+
+# Logs
+logs
+*.log
+
+# Environment files
+.env
+
+# Build outputs
+dist/
+build/
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS generated files
+Thumbs.db
+.DS_Store
+
+# Temporary files
+tmp/
+temp/
+
+# Coverage reports
+coverage/
+
+# Database files
+*.db
+*.sqlite
+
+# Log files
+*.log
+
+# Editor files
+*.sublime-project
+*.sublime-workspace
