@@ -1,41 +1,31 @@
 # Dependencies
 node_modules/
 
-# Logs
-logs
-*.log
-
-# Environment files
+# Environment variables
 .env
 
-# Build outputs
-dist/
-build/
+# Uploaded files
+backend/uploads/
+
+# Test files
+backend/test-*.js
+backend/inspect-db.js
+backend/search-db.js
+backend/test-document.pdf
+backend/test-login.html
+backend/token-test.html
+
+# Logs
+*.log
 
 # IDE files
 .vscode/
 .idea/
-*.swp
-*.swo
 
 # OS generated files
-Thumbs.db
 .DS_Store
+Thumbs.db
 
-# Temporary files
-tmp/
-temp/
-
-# Coverage reports
-coverage/
-
-# Database files
-*.db
-*.sqlite
-
-# Log files
-*.log
-
-# Editor files
-*.sublime-project
-*.sublime-workspace
+# Build outputs
+dist/
+build/

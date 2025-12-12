@@ -8,7 +8,10 @@
     "list-users": "node listUsers.js",
     "fix-admin": "node fixAdmin.js",
     "check-email": "node checkEmailCase.js",
-    "test-login": "node testLogin.js"
+    "test-login": "node testLogin.js",
+    "test-db": "node testDbConnection.js",
+    "test-jwt": "node testJwt.js",
+    "test-token": "node testToken.js"
   },
   "dependencies": {
     "@google/generative-ai": "^0.1.3",

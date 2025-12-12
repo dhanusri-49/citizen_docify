@@ -6,7 +6,8 @@ import Signup from './pages/Signup';
 import Upload from './pages/Upload';
 import Dashboard from './pages/Dashboard';
 import Summary from './pages/Summary';
-import Eligibility from './pages/Eligibility'; // 👈 Import the new page
+import Eligibility from './pages/Eligibility'; 
+import Profile from './pages/Profile'; // 👈 Import Profile Page
 import { AuthProvider } from './context/AuthContext';
 
 function App() {
@@ -22,8 +23,9 @@ function App() {
             <Route path="/upload" element={<Upload />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/summary/:id" element={<Summary />} />
-            {/* 👇 Added the Eligibility Route here */}
             <Route path="/eligibility" element={<Eligibility />} />
+            {/* 👇 Added the Profile Route here */}
+            <Route path="/profile" element={<Profile />} />
           </Routes>
         </div>
       </Router>

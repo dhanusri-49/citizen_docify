@@ -4,10 +4,17 @@ const { analyzeDocument, translateText } = require('../utils/aiService');
 // 1. Upload Document
 exports.uploadDocument = async (req, res) => {
   try {
-    if (!req.file) return res.status(400).json({ message: 'No file uploaded' });
+    if (!req.file) {
+      console.log('No file uploaded in request');
+      return res.status(400).json({ message: 'No file uploaded' });
+    }
 
+    console.log('File received:', req.file);
+    
     // Use Gemini to analyze the uploaded file
+    console.log('Analyzing document with AI service...');
     const analysis = await analyzeDocument(req.file.path);
+    console.log('AI analysis result:', analysis);
 
     const newDoc = new Document({
       user: req.user.id,
@@ -19,21 +26,41 @@ exports.uploadDocument = async (req, res) => {
       version: analysis.version
     });
 
+    console.log('Saving document to database...');
     await newDoc.save();
+    console.log('Document saved successfully:', newDoc._id);
     res.json(newDoc);
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: 'Upload failed' });
+    console.error('Upload error:', err);
+    // Log more detailed error information
+    console.error('Error details:', {
+      message: err.message,
+      stack: err.stack,
+      name: err.name
+    });
+    
+    if (err.message.includes('AI')) {
+      return res.status(500).json({ 
+        message: 'AI processing failed. Please try another document.',
+        error: err.message
+      });
+    }
+    res.status(500).json({ 
+      message: 'Upload failed: ' + err.message,
+      error: err.message
+    });
   }
 };
 
 // 2. Get User Documents
 exports.getMyDocuments = async (req, res) => {
   try {
+    console.log('Fetching documents for user:', req.user.id);
     const docs = await Document.find({ user: req.user.id }).sort({ createdAt: -1 });
     res.json(docs);
   } catch (err) {
-    res.status(500).json({ message: 'Fetch failed' });
+    console.error('Fetch documents error:', err);
+    res.status(500).json({ message: 'Fetch failed: ' + err.message });
   }
 };
 
@@ -41,12 +68,13 @@ exports.getMyDocuments = async (req, res) => {
 exports.translateSummary = async (req, res) => {
   try {
     const doc = await Document.findById(req.params.id);
-    if (!doc) return res.status(404).json({ message: 'Not found' });
+    if (!doc) return res.status(404).json({ message: 'Document not found' });
 
     const translated = await translateText(doc.summary, req.body.language);
     res.json({ original: doc.summary, translated, language: req.body.language });
   } catch (err) {
-    res.status(500).json({ message: 'Translation failed' });
+    console.error('Translation error:', err);
+    res.status(500).json({ message: 'Translation failed: ' + err.message });
   }
 };
 

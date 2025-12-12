@@ -10,23 +10,45 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     const token = localStorage.getItem('token');
     if (token) {
-        // In a real app, you'd validate the token with an endpoint here.
-        // For now, we assume if token exists, user is logged in.
-        setUser({ token }); 
+        // Validate token by making a request to a protected endpoint
+        API.get('/auth/me')
+          .then(res => {
+            setUser({ token, ...res.data });
+          })
+          .catch(() => {
+            // Token is invalid, remove it
+            localStorage.removeItem('token');
+          })
+          .finally(() => {
+            setLoading(false);
+          });
+    } else {
+      setLoading(false);
     }
-    setLoading(false);
   }, []);
 
   const login = async (email, password) => {
-    const res = await API.post('/auth/login', { email, password });
-    localStorage.setItem('token', res.data.token);
-    setUser({ token: res.data.token });
+    try {
+      const res = await API.post('/auth/login', { email, password });
+      localStorage.setItem('token', res.data.token);
+      setUser({ token: res.data.token });
+      return res.data;
+    } catch (error) {
+      // Re-throw the error so it can be handled by the calling component
+      throw error;
+    }
   };
 
   const register = async (name, email, password) => {
-    const res = await API.post('/auth/register', { name, email, password });
-    localStorage.setItem('token', res.data.token);
-    setUser({ token: res.data.token });
+    try {
+      const res = await API.post('/auth/register', { name, email, password });
+      localStorage.setItem('token', res.data.token);
+      setUser({ token: res.data.token });
+      return res.data;
+    } catch (error) {
+      // Re-throw the error so it can be handled by the calling component
+      throw error;
+    }
   };
 
   const logout = () => {

@@ -13,10 +13,12 @@ const Login = () => {
       await login(form.email, form.password);
       navigate('/dashboard');
     } catch (err) {
-      console.error(err);
-      // 👇 THIS IS THE FIX: Read the specific message from the server
-      const serverMessage = err.response?.data?.message || "Login failed";
-      alert(`Login Failed: ${serverMessage}`); 
+      console.error('Login error:', err);
+      // Show more detailed error message
+      const errorMessage = err.response?.data?.message || 
+                          err.message || 
+                          'Login failed. Please try again.';
+      alert(`Login Failed: ${errorMessage}`);
     }
   };
 
@@ -25,29 +27,45 @@ const Login = () => {
       <form onSubmit={handleSubmit} className="bg-white p-8 rounded shadow-md w-96">
         <h2 className="text-2xl font-bold mb-4 text-center">Login</h2>
         
-        <input 
-          className="w-full border p-2 mb-4" 
-          placeholder="Email" 
-          type="email"
-          value={form.email}
-          onChange={e => setForm({...form, email: e.target.value})} 
-          required 
-        />
-        <input 
-          className="w-full border p-2 mb-4" 
-          placeholder="Password" 
-          type="password"
-          value={form.password}
-          onChange={e => setForm({...form, password: e.target.value})} 
-          required 
-        />
+        <div className="mb-4">
+          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="email">
+            Email
+          </label>
+          <input 
+            id="email"
+            className="w-full border p-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500" 
+            placeholder="Email" 
+            type="email"
+            value={form.email}
+            onChange={e => setForm({...form, email: e.target.value})} 
+            required 
+          />
+        </div>
         
-        <button className="w-full bg-blue-600 text-white p-2 rounded hover:bg-blue-700 font-bold mb-4">
+        <div className="mb-6">
+          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="password">
+            Password
+          </label>
+          <input 
+            id="password"
+            className="w-full border p-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500" 
+            placeholder="Password" 
+            type="password"
+            value={form.password}
+            onChange={e => setForm({...form, password: e.target.value})} 
+            required 
+          />
+        </div>
+        
+        <button 
+          className="w-full bg-blue-600 text-white p-2 rounded hover:bg-blue-700 font-bold transition duration-200"
+          type="submit"
+        >
           Login
         </button>
         
-        <p className="text-center text-sm">
-          Don't have an account? <Link to="/signup" className="text-blue-600">Sign Up</Link>
+        <p className="text-center text-sm mt-4">
+          Don't have an account? <Link to="/signup" className="text-blue-600 hover:text-blue-800">Sign Up</Link>
         </p>
       </form>
     </div>
